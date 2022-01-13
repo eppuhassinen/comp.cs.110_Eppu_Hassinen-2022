@@ -9,7 +9,15 @@ int main()
 
     for ( int i = 1; i <= amount; ++i )
     {
-        std::cout << i << std::endl;
+        if (i % 3 == 0)
+        {
+            std::cout << "zip" << std::endl;
+        }
+        else
+        {
+            std::cout << i << std::endl;
+        }
+
     }
 
     return 0;
