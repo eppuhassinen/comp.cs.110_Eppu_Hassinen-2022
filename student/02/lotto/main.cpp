@@ -39,6 +39,7 @@ int main()
     {
         cout << "The maximum number of drawn balls is the total amount of balls." <<
                 endl;
+        return 0;
     }
 
     cout << "The probability of guessing all " << drawn <<
