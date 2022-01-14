@@ -14,9 +14,9 @@ int main()
         return 0;
     }
 
-    int factor_1 = 1;
-    int factor_2 = number;
-    for ( int i = 2; i <= number / 2; ++i )
+    int factor_1 = number;
+    int factor_2 = 1;
+    for ( int i = 2; i <= number; ++i )
     {
         if ( number % i == 0 )
         {
