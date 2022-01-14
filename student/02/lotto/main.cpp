@@ -22,11 +22,11 @@ unsigned long int chances(unsigned long int total, unsigned long int drawn)
 int main()
 {
     cout << "Enter the total amount of lottery balls: ";
-    unsigned long int total = 1;
+    int total = 1;
     cin >> total;
 
     cout << "Enter the number of drawn balls: ";
-    unsigned long int drawn = 1;
+    int drawn = 1;
     cin >> drawn;
 
     if ( total <= 0 or drawn <= 0 )
