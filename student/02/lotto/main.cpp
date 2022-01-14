@@ -31,12 +31,18 @@ int main()
 
     if ( total <= 0 or drawn <= 0 )
     {
-        cout << "The amount of balls must be a positive number." << endl;
+        cout << "The number of balls must be a positive number." << endl;
         return 0;
     }
 
+    if ( drawn > total )
+    {
+        cout << "The maximum number of drawn balls is the total amount of balls." <<
+                endl;
+    }
+
     cout << "The probability of guessing all " << drawn <<
-            " balls correct is 1/" << chances(total, drawn) << endl;
+            " balls correctly is 1/" << chances(total, drawn) << endl;
 
 
     return 0;
