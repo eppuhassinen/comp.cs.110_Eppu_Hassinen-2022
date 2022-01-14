@@ -21,7 +21,7 @@ unsigned long int chances(unsigned long int total, unsigned long int drawn)
 
 int main()
 {
-    cout << "Enter the total amount of lottery balls: ";
+    cout << "Enter the total number of lottery balls: ";
     int total = 1;
     cin >> total;
 
