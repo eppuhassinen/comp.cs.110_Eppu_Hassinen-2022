@@ -21,7 +21,7 @@ bool key_tester(string key) // Tests the encryption key
     {
         if ( isupper(key.at(i)) )
         {
-            cout << "Error! The encryption key must only contain " <<
+            cout << "Error! The encryption key must contain only " <<
                     "lower case characters." << endl;
             return false;
         }
@@ -50,7 +50,7 @@ bool text_tester(string text)
     {
         if ( isupper(text.at(i)) )
         {
-            cout << "Error! The text to be encrypted must only contain " <<
+            cout << "Error! The text to be encrypted must contain only " <<
                     "lower case characters." << endl;
             return false;
         }
