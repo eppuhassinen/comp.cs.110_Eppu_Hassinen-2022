@@ -20,7 +20,7 @@ void produce_random_numbers(unsigned int lower, unsigned int upper,
         cout << "Your drawn random number is " << distr(gen) << endl;
 
         // Asking for input key and quitting the program
-        cout << "Press q to quit or any other key to continue: " << endl;
+        cout << "Press q to quit or any other key to continue: ";
         cin >> key;
         if (key == "q")
             return;
