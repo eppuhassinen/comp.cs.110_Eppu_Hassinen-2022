@@ -20,7 +20,10 @@ public:
     void save_money(int money);
 
     // Subtracts money from balance
-    void take_money(int money);
+    bool take_money(int money);
+
+    // Transfer money to a different Account
+    void transfer_to(Account& destination, int amount);
 
 private:
     // Generates IBAN (based on running_number_ below).
@@ -39,7 +42,10 @@ private:
 
     string owner_;
 
-    int balance_;
+    int balance_ = 0;
+
+    bool has_credit_;
+    int credit_limit_ = 0;
 };
 
 #endif // ACCOUNT_HH
