@@ -9,6 +9,9 @@ std::vector<std::string> split(std::string input,
     std::vector<std::string> splitted;
     std::string::size_type current_position = 0;
 
+    if (input.at(0) == splitter && !include_blanks)
+        splitted.push_back("");
+
     for ( ;; )
     {
         current_position = input.find(splitter);
