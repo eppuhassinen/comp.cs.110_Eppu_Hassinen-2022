@@ -3,7 +3,7 @@
 #include <vector>
 
 
-std::vector<std::string> split(const std::string& input,
+std::vector<std::string> split(std::string input,
                                char splitter, bool include_blanks=false)
 {
     std::vector<std::string> splitted;
