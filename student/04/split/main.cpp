@@ -23,7 +23,7 @@ std::vector<std::string> split(std::string input,
             input.erase(0, current_position);
         } else
         {
-            if (!include_blanks)
+            if (!include_blanks && input.find(splitter, 1) == 1)
                 splitted.push_back("");
             input.erase(0, 1);
         }
