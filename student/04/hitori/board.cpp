@@ -33,6 +33,15 @@ Board::Board(int random_seed, unsigned int board_side)
 Board::Board(const std::vector<int> &numbers, unsigned int board_side)
 {
     board_side_ = board_side;
+
+    for (unsigned int j = 0; j < board_side_; ++j)
+    {
+        game_board_.push_back(vector<int>(board_side_));
+        for (unsigned int i = 0; i < board_side_; ++i)
+        {
+            game_board_.at(j).at(i) = numbers.at(board_side_ * j + i);
+        }
+    }
 }
 
 void Board::print_board() const

@@ -41,7 +41,8 @@
 using namespace std;
 
 const unsigned int BOARD_SIDE = 5;
-
+const std::vector<int> TEST_INPUT = {2, 5, 5, 3, 2, 3, 4, 2, 5, 3, 1, 2, 2,
+                                     1, 4, 2, 1, 5, 2, 3, 1, 2, 4, 2, 4};
 
 // Converts the given numeric string to the corresponding integer
 // (by calling stoi).
@@ -69,7 +70,7 @@ unsigned int stoi_with_check(const string& str)
 
 int main()
 {
-    Board test_board = Board(1, BOARD_SIDE);
+    Board test_board = Board(TEST_INPUT);
     test_board.print_board();
     return 0;
 }
