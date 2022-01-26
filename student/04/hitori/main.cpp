@@ -145,7 +145,30 @@ Board start_game()
 
 int main()
 {
+    int x, y;
+    string input;
+
     Board board = start_game();
     board.print_board();
+    // loop for playing the game
+    for ( ;; )
+    {
+
+        cout << "Enter removable element (x, y): ";
+
+        cin >> input;
+        if (one_char_input(input) == 'q')
+        {
+            cout << "Quitting" << endl;
+            break;
+        }
+        x = stoi_with_check(input);
+        cin >> input;
+        y = stoi_with_check(input);
+
+        if (board.delete_square(x, y))
+            board.print_board();
+
+    }
     return 0;
 }

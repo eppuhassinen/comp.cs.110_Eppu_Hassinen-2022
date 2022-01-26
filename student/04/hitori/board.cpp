@@ -69,3 +69,20 @@ void Board::print_board() const
 
 
 }
+
+bool Board::delete_square(int i, int j)
+{
+    --i; --j;
+    if (i < 0 or i > 4 or j < 0 or j > 4)
+    {
+        cout << "Out of board" << endl;
+        return false;
+    }
+    if (game_board_.at(j).at(i) == 0)
+    {
+        cout << "Already removed" << endl;
+        return false;
+    }
+    game_board_.at(j).at(i) = 0;
+    return true;
+}

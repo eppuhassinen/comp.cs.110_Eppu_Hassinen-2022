@@ -33,6 +33,10 @@ public:
     // Prints the board
     void print_board() const;
 
+    // Deletes a square
+    // Returns false if square is out of board or already empty
+    bool delete_square(int i, int j);
+
 private:
     std::vector<std::vector<int>> game_board_;
     unsigned int board_side_;
