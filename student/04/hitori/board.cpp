@@ -55,7 +55,13 @@ void Board::print_board() const
 
         for (unsigned int i = 0; i < board_side_; ++i)
         {
-            cout << " " << game_board_.at(j).at(i);
+            if (game_board_.at(j).at(i) == 0)
+            {
+                cout << "  ";
+            } else
+            {
+                cout << " " << game_board_.at(j).at(i);
+            }
         }
         cout << " |" << endl;
     }

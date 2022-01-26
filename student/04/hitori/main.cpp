@@ -37,10 +37,10 @@
 #include "board.hh"
 #include <iostream>
 #include <vector>
+#include <cctype>
 
 using namespace std;
 
-const unsigned int BOARD_SIDE = 5;
 const std::vector<int> TEST_INPUT = {2, 5, 5, 3, 2, 3, 4, 2, 5, 3, 1, 2, 2,
                                      1, 4, 2, 1, 5, 2, 3, 1, 2, 4, 2, 4};
 
@@ -68,9 +68,84 @@ unsigned int stoi_with_check(const string& str)
     }
 }
 
+// checks if string is 1 character long and makes it lower case
+char one_char_input(string& input)
+{
+    if (input.length() != 1)
+        return '0';
+    return tolower(input.at(0));
+}
+
+// Asks the user for input and makes the board so the game can start
+Board start_game()
+{
+    // stores the user input
+    string input;
+    // stores the command character from user input
+    char command;
+    // stores values: seed or numbers to board
+    int value;
+
+    // loops through until user gives command r or i (R or I too)
+    for ( ;; )
+    {
+        cout << "Select start (R for random, I for input): ";
+
+        cin >> input;
+        command = one_char_input(input);
+
+        if (command == 'r' or command == 'i')
+            break;
+    }
+
+    // random board generation loop
+    // asks for seeds
+    if (command == 'r')
+    {
+        cout << "Enter seed value: ";
+        for ( ;; )
+        {
+            cin >> input;
+            // returns 0 if input is incorrect (not an int)
+            value = stoi_with_check(input);
+            if (value != 0)
+                return Board(value);
+            cout << "Seed value must be a positive number: ";
+
+        }
+    }
+
+    // board generation with users numbers
+
+    // vector to store the numbers
+    vector<int> board_values;
+    cout << "Input: ";
+
+    // loops until the vector has 25 correct numbers
+    for ( ;; )
+    {
+        cin >> input;
+        // makes values numbers if possible
+        value = stoi_with_check(input);
+        // checks if numbers are from 1-5
+        if (value > 0 && value < 6)
+        {
+            board_values.push_back(value);
+            if (board_values.size() == 25)
+                return Board(board_values);
+            continue;
+        }
+        cout << "All values must be from 1-5" << endl;
+
+    }
+
+}
+
+
+
 int main()
 {
-    Board test_board = Board(TEST_INPUT);
-    test_board.print_board();
+    Board board = start_game();
+    board.print_board();
     return 0;
 }
