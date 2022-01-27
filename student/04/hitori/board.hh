@@ -37,9 +37,25 @@ public:
     // Returns false if square is out of board or already empty
     bool delete_square(int i, int j);
 
+    // Analyze board
+    // analyzes for winning and losing
+
+    // Returns true if game ends and prints "You lost" or "You won"
+    bool status();
+
 private:
-    std::vector<std::vector<int>> game_board_;
+    std::vector<std::vector<int>> game_board_, reversed_game_board_;
     unsigned int board_side_;
+
+    // returns true if there is adjacent empty squares
+    bool adjacent_empties();
+
+    // returns true if there is alone aquares with numbers
+    bool alone_squares();
+
+    // returns true if any of the vectors doesn't contain any duplicates
+    // ignores zeros
+    bool unique_vectors(std::vector<std::vector<int>>& rows);
 };
 
 #endif // BOARD_HH

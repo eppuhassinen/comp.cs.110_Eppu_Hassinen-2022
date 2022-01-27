@@ -127,15 +127,11 @@ Board start_game()
         cin >> input;
         // makes values numbers if possible
         value = stoi_with_check(input);
-        // checks if numbers are from 1-5
-        if (value > 0 && value < 6)
-        {
-            board_values.push_back(value);
-            if (board_values.size() == 25)
-                return Board(board_values);
-            continue;
-        }
-        cout << "All values must be from 1-5" << endl;
+        board_values.push_back(value);
+
+
+        if (board_values.size() == 25)
+            return Board(board_values);
 
     }
 
@@ -168,6 +164,9 @@ int main()
 
         if (board.delete_square(x, y))
             board.print_board();
+
+        if (board.status())
+            return 0;
 
     }
     return 0;
