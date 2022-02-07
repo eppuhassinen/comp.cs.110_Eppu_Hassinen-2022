@@ -13,8 +13,8 @@ int main()
     cout << "Output file: ";
     getline(cin, output_file_name);
 
-    ifstream input_file(input_file_name);
-    ofstream output_file(output_file_name);
+    fstream input_file(input_file_name);
+    fstream output_file(output_file_name);
 
     if (not input_file)
     {
