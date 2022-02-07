@@ -34,7 +34,6 @@ int main()
 
     while(getline(input_file, row))
     {
-        cout << row << endl;
         output_file << row_num << " " << row << endl;
         ++row_num;
     }
