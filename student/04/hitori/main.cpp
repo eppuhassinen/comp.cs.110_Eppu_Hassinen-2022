@@ -91,7 +91,7 @@ Board start_game()
     {
         cout << "Select start (R for random, I for input): ";
 
-        cin >> input;
+        getline(cin, input);
         command = one_char_input(input);
 
         if (command == 'r' or command == 'i')
