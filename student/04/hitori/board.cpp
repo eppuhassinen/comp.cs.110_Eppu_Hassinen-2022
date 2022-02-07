@@ -49,6 +49,7 @@ Board::Board(const std::vector<int> &numbers, unsigned int board_side)
 
 void Board::print_board() const
 {
+    // prints the board from board_side_
     cout << "=================" << endl;
     cout << "|   | 1 2 3 4 5 |" << endl;
     cout << "-----------------" << endl;
@@ -75,18 +76,18 @@ void Board::print_board() const
 
 bool Board::delete_square(int i, int j)
 {
-    --i; --j;
-    if (i < 0 or i > 4 or j < 0 or j > 4)
+    --i; --j; // makes coordinates match vectors 0 to 4
+    if (i < 0 or i > 4 or j < 0 or j > 4) // check if coord out of board
     {
         cout << "Out of board" << endl;
         return false;
     }
-    if (game_board_.at(j).at(i) == 0)
+    if (game_board_.at(j).at(i) == 0) // check if coord empty (zero)
     {
         cout << "Already removed" << endl;
         return false;
     }
-    game_board_.at(j).at(i) = 0;
+    game_board_.at(j).at(i) = 0; // makes position empty (zero)
     return true;
 }
 
@@ -116,6 +117,7 @@ bool Board::status()
 
 bool Board::adjacent_empties()
 {
+    // checks if there is adjacent empty squares in game_board_
     for (unsigned int j = 0; j < board_side_; ++j)
     {
 
@@ -134,23 +136,18 @@ bool Board::adjacent_empties()
                 cout << "You lost" << endl;
                 return true;
             }
-
-
-
-
         }
-
     }
     return false;
 }
 
 bool Board::alone_squares()
 {
-    int current_square;
+    // checks if there is squares that are adjacent to only empty positions
+    int current_square; // integer to calculate adjacent squares
 
     for (unsigned int j = 0; j < board_side_; ++j)
     {
-
 
         for (unsigned int i = 0; i < board_side_; ++i)
         {
@@ -174,11 +171,7 @@ bool Board::alone_squares()
                 cout << "You lost" << endl;
                 return true;
             }
-
-
         }
-
-
     }
 
     return false;
@@ -186,20 +179,22 @@ bool Board::alone_squares()
 
 bool Board::unique_vectors(std::vector<std::vector<int>>& rows)
 {
+    // check if all vectors in a vector have maximum of one of each number
+    // from 1-5
     vector<int> calculator(6, 0);
     // calculates duplicates
     for (vector<int>& row : rows)
     {
         for (int number : row)
         {
-            if (number != 0)
+            if (number != 0) // adds 1 in the corresponding index
                 ++calculator.at(number);
         }
         for (int& number : calculator)
         {
-            if (number > 1)
+            if (number > 1) // check if any int is bigger than 1
                 return false;
-            number = 0;
+            number = 0; // makes number 0 after checking its value
         }
     }
     return true;
