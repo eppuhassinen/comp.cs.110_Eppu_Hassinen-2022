@@ -14,7 +14,7 @@ int main()
     getline(cin, output_file_name);
 
     ifstream input_file(input_file_name);
-    ifstream output_file(output_file_name);
+    ofstream output_file(output_file_name);
 
     if (not input_file)
     {
@@ -22,12 +22,24 @@ int main()
              << " cannot be opened." << endl;
         return EXIT_FAILURE;
     }
+
+    if (not output_file)
+    {
+        cout << "Error! The file " << output_file_name
+             << " cannot be opened." << endl;
+        return EXIT_FAILURE;
+    }
     string row;
+    int row_num = 1;
+
     while(getline(input_file, row))
     {
         cout << row << endl;
+        output_file << row_num << " " << row << endl;
+        ++row_num;
     }
 
     input_file.close();
+    output_file.close();
     return EXIT_SUCCESS;
 }
