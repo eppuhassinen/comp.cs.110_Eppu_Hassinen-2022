@@ -19,11 +19,14 @@ int main()
             return EXIT_SUCCESS;
         }
 
-        std::string::iterator start = word.begin(), end = word.end();
-        ++start;
-        --end;
+        if (word.length() > 3)
+        {
+            std::string::iterator start = word.begin(), end = word.end();
+            ++start;
+            --end;
 
-        shuffle(start, end, generator);
+            shuffle(start, end, generator);
+        }
 	
         std::cout << word << std::endl;
     }
