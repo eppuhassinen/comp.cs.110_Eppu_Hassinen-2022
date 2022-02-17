@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <set>
 
 const std::string HELP_TEXT = "S = store id1 i2\nP = print id\n"
                               "C = count id\nD = depth id\n";
@@ -32,9 +31,37 @@ std::vector<std::string> split(const std::string& s,
     return result;
 }
 
+// prints the network from the starting id
+// recursive function
+void print_network(const std::string& id,const std::map<std::string,
+                   std::vector<std::string>>& network,unsigned int i=0)
+{
+    // initializes the amount of dots according to the current depth of the network
+    std::string mark = "";
+    for (unsigned int n = 0; n < i; ++n)
+    {
+        mark += "..";
+    }
+    // prints the current id
+    std::cout << mark << id << std::endl;
+
+    // checks if the id's under current id has their own networks
+    for (auto& sub_id : network.at(id))
+    {
+        if (network.find(sub_id) != network.end())
+        {
+            print_network(sub_id, network, i + 1);
+        }
+        else // if not they are last ones and gets printed
+        {
+            std::cout << mark + ".." << sub_id << std::endl;
+        }
+    }
+}
+
 int main()
 {
-    std::map<std::string, std::set<std::string>> network;
+    std::map<std::string, std::vector<std::string>> network;
 
 
     while(true)
@@ -64,11 +91,11 @@ int main()
 
             if (network.find(id1) == network.end())
             {
-                network.insert({id1, std::set<std::string>({id2})});
+                network.insert({id1, {id2}});
             }
             else
             {
-                network.at(id1).insert(id2);
+                network.at(id1).push_back(id2);
             }
 
         }
@@ -81,7 +108,7 @@ int main()
             }
             std::string id = parts.at(1);
 
-            // TODO: Implement the command here!
+            print_network(id, network);
 
         }
         else if(command == "C" or command == "c")
