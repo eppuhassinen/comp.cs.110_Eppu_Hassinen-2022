@@ -1,3 +1,14 @@
+/*
+ * Program to help sort networks of people or items
+ * Each person has to have its unique name / ID (string)
+ *
+ * Eppu Hassinen
+ * 17.2.2022
+ * Student ID: 50044786
+ * eppu.hassinen@tuni.fi
+ *
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -55,7 +66,7 @@ void print_network(const std::string& id,const std::map<std::string,
     }
 }
 
-// prints amount of ids in the network below start id
+// returns amount of ids in the network below start id
 // ignores the start id
 int calculate_network(const std::string& id,const std::map<std::string,
                    std::vector<std::string>>& network, int sum=-1)
@@ -74,6 +85,30 @@ int calculate_network(const std::string& id,const std::map<std::string,
     }
 
     return sum;
+}
+
+// returns depth of the longest path in the network
+unsigned int network_depth(const std::string& id, const std::map<std::string,
+                           std::vector<std::string>>& network, unsigned int sum = 1)
+{
+    // if the id has no networks below returns sum
+    if (network.find(id) == network.end())
+    {
+        return sum;
+    }
+    // tests which depth below is longest
+    unsigned int test_sum = 0, biggest_sum = 0;
+    for (auto& sub_id : network.at(id))
+    {
+        test_sum = network_depth(sub_id, network, sum + 1);
+        if (test_sum > biggest_sum)
+        {
+            biggest_sum = test_sum;
+        }
+    }
+
+    return biggest_sum;
+
 }
 
 int main()
@@ -149,8 +184,7 @@ int main()
             }
             std::string id = parts.at(1);
 
-            // TODO: Implement the command here!
-
+            std::cout << network_depth(id, network) << std::endl;
         }
         else if(command == "Q" or command == "q")
         {
