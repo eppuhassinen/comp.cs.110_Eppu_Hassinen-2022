@@ -36,27 +36,44 @@ std::vector<std::string> split(const std::string& s,
 void print_network(const std::string& id,const std::map<std::string,
                    std::vector<std::string>>& network,unsigned int i=0)
 {
-    // initializes the amount of dots according to the current depth of the network
-    std::string mark = "";
+    // prints the correct amount of dots
     for (unsigned int n = 0; n < i; ++n)
     {
-        mark += "..";
+        std::cout << "..";
     }
     // prints the current id
-    std::cout << mark << id << std::endl;
+    std::cout << id << std::endl;
+
+    // if the current id has no one below returns
+    if (network.find(id) == network.end())
+        return;
 
     // checks if the id's under current id has their own networks
     for (auto& sub_id : network.at(id))
     {
-        if (network.find(sub_id) != network.end())
-        {
-            print_network(sub_id, network, i + 1);
-        }
-        else // if not they are last ones and gets printed
-        {
-            std::cout << mark + ".." << sub_id << std::endl;
-        }
+        print_network(sub_id, network, i + 1);
     }
+}
+
+// prints amount of ids in the network below start id
+// ignores the start id
+int calculate_network(const std::string& id,const std::map<std::string,
+                   std::vector<std::string>>& network, int sum=-1)
+{
+    sum++; // adds one to the calculator
+
+    // if the current id has no one below returns
+    if (network.find(id) == network.end())
+    {
+        return sum;
+    }
+    // goes through the network below id
+    for (auto& sub_id : network.at(id))
+    {
+        sum = calculate_network(sub_id, network, sum);
+    }
+
+    return sum;
 }
 
 int main()
@@ -120,7 +137,7 @@ int main()
             }
             std::string id = parts.at(1);
 
-            // TODO: Implement the command here!
+            std::cout << calculate_network(id, network) << std::endl;
 
         }
         else if(command == "D" or command == "d")
