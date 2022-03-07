@@ -24,6 +24,7 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <cstring>
 
 
 // Casual split func, if delim char is between "'s, ignores it.
@@ -85,6 +86,57 @@ bool add_player(const std::string input_line,
     return true;
 }
 
+void user_interface(std::map<std::string, std::map<std::string, int>>& data)
+{
+    while (true)
+    {
+        // users input in format "<command> <parameter> <parameter>" etc.
+        std::string input;
+        std::cout << "games> ";
+        std::getline(std::cin, input);
+        auto command = split(input, ' ');
+
+        if (command.at(0) == "")
+        {
+            std::cout << "Error: Invalid input." << std::endl;
+            continue;
+        }
+
+        for (auto& n : command.at(0)) // Makes the command uppercase
+        {
+            n = toupper(n);
+        }
+
+        if (command.at(0) == "QUIT")
+        {
+            return;
+        }
+
+        if (command.at(0) == "ALL_GAMES")
+        {
+
+        }
+
+        if (command.at(0) == "GAME" && command.size() > 1)
+        {
+
+        }
+
+        if (command.at(0) == "ALL_PLAYERS")
+        {
+
+        }
+
+        if (command.at(0) == "PLAYER" && command.size() > 1)
+        {
+
+        }
+
+
+
+    }
+}
+
 int main()
 {
     // Data structure to save games, players and scores
@@ -106,6 +158,10 @@ int main()
             return EXIT_FAILURE;
         }
     }
+
+    file.close();
+
+    user_interface();
 
     // for testing
     for (auto& game : data)
