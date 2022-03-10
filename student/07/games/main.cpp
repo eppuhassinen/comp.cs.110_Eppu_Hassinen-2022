@@ -1,7 +1,7 @@
 /*  COMP.CS.100 Project 2: GAME STATISTICS
- * ===============================
- * EXAMPLE SOLUTION
- * ===============================
+ *
+ * This is a game statistic program. It saves games players and scores.
+ * Scores must be positive integers. Extra parameters in commands will be ignored.
  *
  *  Acts as a game statistics with n commands:
  * ALL_GAMES - Prints all known game names
@@ -14,10 +14,17 @@
  * already plays the game
  * REMOVE_PLAYER <player name> - Removes the player from all games
  *
- *  The data file's lines should be in format game_name;player_name;score
- * Otherwise the program execution terminates instantly (but still gracefully).
+ * command can be lower case or upper case. If a game or player name contains
+ * spaces, it must be written: ADD_GAME "Sexy Hiking"
  *
+ *  The data file's lines should be in format game_name;player_name;score
+ * Otherwise the program execution terminates instantly
+ *
+ * Eppu Hassinen
+ * Student ID: 50044786
+ * email: eppu.hassinen@tuni.fi
  * */
+#include "game_data.hh"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -86,21 +93,23 @@ bool add_player(const std::string input_line,
     return true;
 }
 
-void user_interface(std::map<std::string, std::map<std::string, int>>& data)
+void user_interface(Game_data& data)
 {
     while (true)
     {
         // users input in format "<command> <parameter> <parameter>" etc.
-        std::string input;
+        std::string input = "";
         std::cout << "games> ";
         std::getline(std::cin, input);
-        auto command = split(input, ' ');
 
-        if (command.at(0) == "")
+        if (input == "")
         {
             std::cout << "Error: Invalid input." << std::endl;
             continue;
         }
+
+        // command is a vector<str> = {command, parameter 1, param 2, etc.}
+        auto command = split(input, ' ');
 
         for (auto& n : command.at(0)) // Makes the command uppercase
         {
@@ -112,26 +121,85 @@ void user_interface(std::map<std::string, std::map<std::string, int>>& data)
             return;
         }
 
+        // Prints all games in ASCII order
         if (command.at(0) == "ALL_GAMES")
         {
-
+            data.print_games();
+            continue;
         }
 
+        // Prints scores and players of a given game
         if (command.at(0) == "GAME" && command.size() > 1)
         {
-
+            data.print_game(command.at(1));
+            continue;
         }
 
+        // Prints all players in ASCII order
         if (command.at(0) == "ALL_PLAYERS")
         {
-
+            data.print_players();
+            continue;
         }
 
+        // Prints all games a player has played
         if (command.at(0) == "PLAYER" && command.size() > 1)
         {
-
+            data.player(command.at(1));
+            continue;
         }
 
+        // Adds a game
+        if (command.at(0) == "ADD_GAME" && command.size() > 1)
+        {
+            // Method returns false if game already exists
+            if (not data.add_game(command.at(1)))
+            {
+                std::cout << "Error: Already exists." << std::endl;
+                continue;
+            }
+
+            std::cout << "Game was added." << std::endl;
+            continue;
+        }
+
+        // Adds a player and a score to a game
+        if (command.at(0) == "ADD_PLAYER" && command.size() > 3)
+        {
+            // Stops this command if game is not found
+            if (not data.has_game(command.at(1)))
+            {
+                std::cout << "Error: Game could not be found" << std::endl;
+                continue;
+            }
+
+            // Adds a player and a score. If player already has a score, updates it
+            // Method returns true if adding was successful
+            if (data.add_player({command.at(1), command.at(2), command.at(3)}))
+            {
+                std::cout << "Player was added." << std::endl;
+                continue;
+            }
+
+            std::cout << "Player could not be added." << std::endl;
+            continue;
+        }
+
+        // Removes a players data from all games
+        if (command.at(0) == "REMOVE" && command.size() > 1)
+        {
+            // Method returns false if player was not found
+            if (not data.remove(command.at(1)))
+            {
+                std::cout << "Error: Player could not be found" << std::endl;
+                continue;
+            }
+            std::cout << "Player was removed from all games" << std::endl;
+            continue;
+        }
+
+        // If none of the commands worked, input was invalid
+        std::cout << "Error: Invalid input." << std::endl;
 
 
     }
@@ -140,7 +208,7 @@ void user_interface(std::map<std::string, std::map<std::string, int>>& data)
 int main()
 {
     // Data structure to save games, players and scores
-    std::map<std::string, std::map<std::string, int>> data;
+    Game_data data;
     // Opens a text file
     auto file = open_file(); // returns false if the file couldn't be opened
     if (not file)
@@ -152,7 +220,8 @@ int main()
     std::string row;
     while (getline(file, row))
     {
-        if (!add_player(row, data))
+
+        if (!data.add_player(split(row)))
         {
             std::cout << "Error: Invalid format in file." << std::endl;
             return EXIT_FAILURE;
@@ -161,17 +230,8 @@ int main()
 
     file.close();
 
-    user_interface();
-
-    // for testing
-    for (auto& game : data)
-    {
-
-        for (auto& row : game.second)
-        {
-            std::cout << game.first << " : " << row.first << " : " << row.second << std::endl;
-        }
-    }
+    // This is where the magic happens
+    user_interface(data);
 
     return EXIT_SUCCESS;
 }
