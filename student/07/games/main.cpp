@@ -191,7 +191,7 @@ void user_interface(Game_data& data)
             // Method returns false if player was not found
             if (not data.remove(command.at(1)))
             {
-                std::cout << "Error: Player could not be found" << std::endl;
+                std::cout << "Error: Player could not be found." << std::endl;
                 continue;
             }
             std::cout << "Player was removed from all games." << std::endl;
