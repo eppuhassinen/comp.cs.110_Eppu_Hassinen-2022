@@ -67,7 +67,7 @@ bool Game_data::add_player(std::vector<std::string> line_vector)
 // Prints all games in ASCII order
 void Game_data::print_games()
 {
-    std::cout << "All games in alphabetical order." << std::endl;
+    std::cout << "All games in alphabetical order:" << std::endl;
     for (const auto& pair : data_)
     {
         std::cout << pair.first << std::endl;

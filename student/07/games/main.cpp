@@ -169,7 +169,7 @@ void user_interface(Game_data& data)
             // Stops this command if game is not found
             if (not data.has_game(command.at(1)))
             {
-                std::cout << "Error: Game could not be found" << std::endl;
+                std::cout << "Error: Game could not be found." << std::endl;
                 continue;
             }
 
@@ -194,7 +194,7 @@ void user_interface(Game_data& data)
                 std::cout << "Error: Player could not be found" << std::endl;
                 continue;
             }
-            std::cout << "Player was removed from all games" << std::endl;
+            std::cout << "Player was removed from all games." << std::endl;
             continue;
         }
 
