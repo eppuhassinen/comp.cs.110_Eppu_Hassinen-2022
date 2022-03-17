@@ -174,6 +174,7 @@ int main() {
             std::string new_phone_n = "";
 
             std::getline(std::cin, new_phone_n);
+            std::cout << std::endl;
 
             if (!is_valid_phone_number(new_phone_n))
             {
@@ -184,7 +185,7 @@ int main() {
 
             write_data(file_name, user_ids);
 
-            std::cout << std::endl;
+
 
 
 
