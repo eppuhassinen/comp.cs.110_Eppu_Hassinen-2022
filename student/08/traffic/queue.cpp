@@ -9,7 +9,13 @@ Queue::Queue(unsigned int cycle)
 
 Queue::~Queue()
 {
-
+    Vehicle *n = nullptr;
+    while (first_ != nullptr)
+    {
+        n = first_;
+        first_ = first_->next;
+        delete n;
+    }
 }
 
 void Queue::enqueue(const string &reg)
@@ -17,11 +23,6 @@ void Queue::enqueue(const string &reg)
     if (is_green_)
     {
         cout << "GREEN: The vehicle " << reg << " need not stop to wait" << endl;
-        ++cars_through_;
-        if (cars_through_ >= cycle_)
-        {
-            is_green_ = false;
-        }
         return;
     }
     if (first_ == nullptr)
@@ -41,17 +42,13 @@ void Queue::switch_light()
     is_green_ = !is_green_;
     print();
 
-    if (is_green_)
+    if (is_green_ && first_ != nullptr)
     {
         cars_through_ = 0;
 
         for(unsigned int i = cars_through_; i < cycle_; ++i)
         {
-            if (!dequeue())
-            {
-
-                return;
-            }
+            dequeue();
             ++cars_through_;
         }
 
