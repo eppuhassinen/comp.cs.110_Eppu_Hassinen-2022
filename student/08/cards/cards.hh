@@ -2,7 +2,6 @@
 #define CARDS_HH
 
 #include <iostream>
-#include <vector>
 
 struct Card_data {
   int data;
