@@ -1,7 +1,6 @@
 #include <iostream>
 #include <memory>
 #include "cards.hh"
-#include <iostream>
 
 Cards::Cards(): top_( nullptr ) {
 }
