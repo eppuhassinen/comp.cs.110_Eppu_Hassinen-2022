@@ -18,3 +18,13 @@ char Point::get_marker()
 {
     return marker_;
 }
+
+int Point::get_x()
+{
+    return x_coor_;
+}
+
+int Point::get_y()
+{
+    return y_coor_;
+}

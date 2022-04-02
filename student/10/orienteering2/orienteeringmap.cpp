@@ -1,5 +1,7 @@
 #include "orienteeringmap.hh"
 #include <memory>
+#include <cmath>
+#include <iomanip>
 
 OrienteeringMap::OrienteeringMap()
 {
@@ -120,7 +122,7 @@ void OrienteeringMap::print_map() const
 void OrienteeringMap::print_routes() const
 {
     std::cout << "Routes:" << std::endl;
-    for (auto& routes : routes_first_point_)
+    for (auto& routes : routes_first_point_) // goes through routes
     {
         std::cout << " - " << routes.first << std::endl;
     }
@@ -128,17 +130,67 @@ void OrienteeringMap::print_routes() const
 
 void OrienteeringMap::print_points() const
 {
-    return;
+    std::cout << "Points:" << std::endl;
+
+    for (auto& point : all_points_) // goes through all points
+    {
+        std::cout << " - " << point.first << " : "
+            << point.second->get_marker() << std::endl;
+    }
 }
 
 void OrienteeringMap::print_route(const std::string &name) const
 {
-    return;
+    if (routes_first_point_.find(name) == routes_first_point_.end())
+    {
+        std::cout << "Error: Route named " << name << "can't be found" << std::endl;
+        return;
+    }
+
+    // goes through all points on a route
+    std::shared_ptr<route_point_> current_point = routes_first_point_.at(name);
+    std::cout << current_point->point->get_name() << std::endl;
+    current_point = current_point->next;
+    while (current_point != nullptr)
+    {
+        std::cout << " -> " << current_point->point->get_name() << std::endl;
+        current_point = current_point->next;
+    }
+
+
 }
 
 void OrienteeringMap::route_length(const std::string &name) const
 {
-    return;
+    if (routes_first_point_.find(name) == routes_first_point_.end())
+    {
+        std::cout << "Error: Route named " << name << "can't be found" << std::endl;
+        return;
+    }
+
+    double length = 0; // double to store the length
+
+    std::shared_ptr<route_point_> current_point = routes_first_point_.at(name);
+
+    // goes through all points in a route (same as in print_route())
+    while (current_point->next != nullptr)
+    {
+        // subrtacts second points coordinate from the first one
+        int x = current_point->point->get_x() - current_point->next->point->get_x();
+        int y = current_point->point->get_y() - current_point->next->point->get_y();
+        // squares the coordinates
+        x = std::pow(x, 2);
+        y = std::pow(y, 2);
+        // takes a square root from the coordinates
+        length = length + std::sqrt(x + y);
+
+        current_point = current_point->next;
+    }
+
+    std::cout << "Route " << name << " length was " <<
+                 std::setprecision(2) << length << std::endl;
+
+
 }
 
 void OrienteeringMap::greatest_rise(const std::string &point_name) const
