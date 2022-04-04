@@ -28,3 +28,8 @@ int Point::get_y()
 {
     return y_coor_;
 }
+
+int Point::get_height(int height)
+{
+    return height_ - height;
+}

@@ -143,7 +143,7 @@ void OrienteeringMap::print_route(const std::string &name) const
 {
     if (routes_first_point_.find(name) == routes_first_point_.end())
     {
-        std::cout << "Error: Route named " << name << "can't be found" << std::endl;
+        std::cout << "Error: Route named " << name << " can't be found" << std::endl;
         return;
     }
 
@@ -164,7 +164,7 @@ void OrienteeringMap::route_length(const std::string &name) const
 {
     if (routes_first_point_.find(name) == routes_first_point_.end())
     {
-        std::cout << "Error: Route named " << name << "can't be found" << std::endl;
+        std::cout << "Error: Route named " << name << " can't be found" << std::endl;
         return;
     }
 
@@ -195,5 +195,99 @@ void OrienteeringMap::route_length(const std::string &name) const
 
 void OrienteeringMap::greatest_rise(const std::string &point_name) const
 {
-    return;
+    // checks if the point is in the data
+    if (all_points_.find(point_name) == all_points_.end())
+    {
+        std::cout << "Error: Point named " << point_name << " can't be found"
+                  << std::endl;
+        return;
+    }
+
+
+    // map to store rises to print them in alphabetical order
+    std::map<std::string, int> rises = {};
+
+    // the greatest rise on a single route after point "point_name"
+    int greatest_rise = 0;
+    // the greatest total rise
+    int greatest_total_rise = 0;
+    // boolean value to check only points after point "point_name"
+    bool point_found = false;
+
+    // goes through all routes
+    for (auto& point : routes_first_point_)
+    {
+        std::shared_ptr<route_point_> current_point = point.second;
+
+        point_found = false; // makes the point not found in this route
+        greatest_rise = 0; // makes the greatest rise on this route 0
+        int current_height = 0; // resets the current height value
+
+        // goes through all points in a route (same as in print_route())
+        while (current_point->next != nullptr)
+        {
+
+            // checks if we found the point
+            if (current_point->point->get_name() == point_name)
+            {
+                point_found = true;
+                // current height is now the point's height
+                current_height = current_point->point->get_height(0);
+            }
+
+            if (point_found) // goes here only if point is found
+            {
+                // goes here if the rise to the next point is positive
+                // from current height
+                if (current_point->next->point->get_height(current_height)  > 0)
+                {
+                    // adds rise to current height
+                    current_height += current_point->next->point->
+                            get_height(current_height);
+                    // greatest rise is current height - starting point
+                    greatest_rise = current_height - all_points_.at(point_name)->
+                            get_height(0);
+                }
+
+                // checks if the next rise is negative
+                if (current_point->next->point->get_height(current_height) < 0)
+                {
+                    point_found = false;
+                }
+
+            }
+
+            current_point = current_point->next; // go to the next point
+        }
+
+        // after each route, adds the greatest rise in the map
+        rises.insert({point.first, greatest_rise});
+        // if greatest rise was bigger than the greatest total rise
+        // update the greatest total rise
+        if (greatest_total_rise < greatest_rise)
+        {
+            greatest_total_rise = greatest_rise;
+        }
+    }
+
+    // if greatest total rise is 0 no point in routes is above the point_name
+    if (greatest_total_rise <= 0)
+    {
+        std::cout << "No route rises after point " << point_name << std::endl;
+        return;
+    }
+
+    // prints the greatest rise
+    std::cout << "Greatest rise after point " << point_name << ", " <<
+                 greatest_total_rise << " meters, is on route(s):" << std::endl;
+
+    // prints all the routes that have the rise mentioned
+    // above in alphabetical order
+    for (auto& routes : rises)
+    {
+        if (routes.second == greatest_total_rise)
+        {
+            std::cout << " - " << routes.first << std::endl;
+        }
+    }
 }
