@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <fstream>
+#include <cstring>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,6 +25,8 @@ private:
     Ui::MainWindow *ui;
 
      QString file_name_;
+
+     bool find_key(std::ifstream& file, bool match_case);
 
 };
 #endif // MAINWINDOW_HH

@@ -26,6 +26,45 @@ void MainWindow::on_findPushButton_clicked()
         return;
     }
 
-    ui->textBrowser->setText("File found");
+    if (ui->keyLineEdit->text() == "")
+    {
+        ui->textBrowser->setText("File found");
+        file.close();
+        return;
+    }
+
+    bool key_found = find_key(file, ui->matchCheckBox->checkState());
+
+    if (key_found)
+    {
+        ui->textBrowser->setText("Word found");
+    } else
+    {
+        ui->textBrowser->setText("Word not found");
+    }
+    file.close();
+
+}
+
+bool MainWindow::find_key(std::ifstream& file, bool match_case)
+{
+    std::string line = "";
+    std::string key = ui->keyLineEdit->text().toStdString();
+    if (!match_case)
+    {
+        for (auto & c : key) c = toupper(c);
+    }
+    while(std::getline(file, line))
+    {
+        if (!match_case)
+        {
+            for (auto & c : line) c = toupper(c);
+        }
+        if (line.find(key) != std::string::npos)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
