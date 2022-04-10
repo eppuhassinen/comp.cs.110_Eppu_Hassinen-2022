@@ -20,7 +20,7 @@ void MainWindow::on_countButton_clicked()
     if (ui->weightLineEdit->text() == "" or
             ui->heightLineEdit->text() == "")
     {
-        ui->resultLabel->setText(QString::fromStdString("Cannot count."));
+        ui->resultLabel->setText(QString::fromStdString("Cannot count"));
         ui->infoTextBrowser->setText("");
         return;
     }
@@ -30,7 +30,7 @@ void MainWindow::on_countButton_clicked()
 
     if (height == 0)
     {
-        ui->resultLabel->setText(QString::fromStdString("Cannot count."));
+        ui->resultLabel->setText(QString::fromStdString("Cannot count"));
         ui->infoTextBrowser->setText("");
         return;
     }
